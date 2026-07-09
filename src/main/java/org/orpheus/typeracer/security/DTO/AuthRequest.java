@@ -1,4 +1,4 @@
-package org.orpheus.typeracer.user.DTO;
+package org.orpheus.typeracer.security.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

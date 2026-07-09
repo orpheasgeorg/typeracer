@@ -1,4 +1,4 @@
-package org.orpheus.typeracer.user;
+package org.orpheus.typeracer.security;
 
 
 import jakarta.persistence.*;
