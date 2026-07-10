@@ -2,6 +2,7 @@ package org.orpheus.typeracer.security.core;
 
 import lombok.RequiredArgsConstructor;
 import org.orpheus.typeracer.security.DTO.AuthRequest;
+import org.orpheus.typeracer.security.filter.JwtUtil;
 import org.orpheus.typeracer.security.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    //private final JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     public String register(AuthRequest request) {
 
@@ -33,8 +33,7 @@ public class UserService {
             throw new RuntimeException("Failed to register user");
         }
 
-        }
-
-
     }
+
+}
 

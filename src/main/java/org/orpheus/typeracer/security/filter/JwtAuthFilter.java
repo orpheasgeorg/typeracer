@@ -18,7 +18,7 @@ import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
-public class jwtAuthFilter extends OncePerRequestFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -40,7 +40,7 @@ public class jwtAuthFilter extends OncePerRequestFilter {
 
         String username = jwtUtil.extractUsername(token);
 
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElse(null);
 
         if (user != null && jwtUtil.isTokenValid(token)){
             UsernamePasswordAuthenticationToken authToken =

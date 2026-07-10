@@ -15,8 +15,8 @@ public class UserController {
     private final TextService textService;
 
     @PostMapping("/register")
-    public void register(@RequestBody AuthRequest request) {
-        // return userService.register(request);
+    public String register(@RequestBody AuthRequest request) {
+        return userService.register(request);
     }
 
 
