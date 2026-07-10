@@ -1,4 +1,4 @@
-package org.orpheus.typeracer.security;
+package org.orpheus.typeracer.security.model;
 
 
 import jakarta.persistence.*;
@@ -21,7 +21,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     @Size(min = 3, max = 20)
