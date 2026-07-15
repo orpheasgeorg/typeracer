@@ -7,6 +7,8 @@ import org.orpheus.typeracer.security.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,12 +30,30 @@ public class UserService {
 
         try {
             userRepository.save(user);
-            return "Welcome " + user.getUsername();
+            return "Welcome " + user.getUsername() + " login to continue";
         } catch (Exception e) {
             throw new RuntimeException("Failed to register user");
         }
 
     }
+
+
+    public String login(AuthRequest request){
+
+        Optional<User> user = userRepository.findByUsername(request.getUsername());
+
+        if (user.isEmpty()) {
+            throw new RuntimeException("Username not found");
+        }
+
+        if (!passwordEncoder.matches(request.getPassword(), user.get().getPasswordHash())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        return jwtUtil.generateToken(user.get().getUsername());
+    }
+
+
 
 }
 

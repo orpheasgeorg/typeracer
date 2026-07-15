@@ -2,7 +2,6 @@ package org.orpheus.typeracer.security.core;
 
 import lombok.RequiredArgsConstructor;
 import org.orpheus.typeracer.security.DTO.AuthRequest;
-import org.orpheus.typeracer.text.core.TextService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,19 +11,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final TextService textService;
 
     @PostMapping("/register")
     public String register(@RequestBody AuthRequest request) {
         return userService.register(request);
     }
 
-
-    @GetMapping("/test-text")
-    public String testText() {
-        textService.getRandomText();
-        return "check console";
+    @PostMapping("/login")
+    public String login(@RequestBody AuthRequest request) {
+        return userService.login(request);
     }
-
 
 }
