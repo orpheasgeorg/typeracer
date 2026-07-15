@@ -29,14 +29,6 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public boolean isTokenValid(String token){
-        try {
-            extractUsername(token);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
 
     public String extractUsername(String token) {
         return Jwts.parser()
