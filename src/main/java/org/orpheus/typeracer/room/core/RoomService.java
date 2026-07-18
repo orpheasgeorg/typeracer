@@ -13,7 +13,7 @@ import java.util.UUID;
 public class RoomService {
     private final Map<String, Room> rooms = new HashMap<>();
 
-    public  Room createRoom(String username) {
+    public Room createRoom(String username) {
 
         String code = UUID.randomUUID().toString().substring(0, 6).toUpperCase();
         Room room = new Room();
@@ -21,5 +21,20 @@ public class RoomService {
         room.getPlayers().add(username);
         rooms.put(code, room);
         return room;
+    }
+
+    public Room joinRoom(String username, String code) {
+        if (rooms.containsKey(code)) {
+            Room room = rooms.get(code);
+            if (room.getPlayers().size() < 4) {
+                room.getPlayers().add(username);
+                rooms.put(code, room);
+                return room;
+            } else {
+                throw new RuntimeException("Room is full");
+            }
+        } else {
+            throw new RuntimeException("Room not found");
+        }
     }
 }
