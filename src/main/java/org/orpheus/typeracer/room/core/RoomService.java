@@ -2,6 +2,7 @@ package org.orpheus.typeracer.room.core;
 
 import lombok.RequiredArgsConstructor;
 import org.orpheus.typeracer.room.Room;
+import org.orpheus.typeracer.room.RoomStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class RoomService {
         Room room = new Room();
         room.setCode(code);
         room.getPlayers().add(username);
+        room.setStatus(RoomStatus.WAITING);
         rooms.put(code, room);
         return room;
     }
