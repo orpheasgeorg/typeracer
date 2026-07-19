@@ -1,5 +1,6 @@
 package org.orpheus.typeracer.room.core;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.orpheus.typeracer.room.Room;
 import org.orpheus.typeracer.room.RoomStatus;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Data
 @RequiredArgsConstructor
 public class RoomService {
     private final Map<String, Room> rooms = new HashMap<>();
@@ -38,5 +40,10 @@ public class RoomService {
         } else {
             throw new RuntimeException("Room not found");
         }
+    }
+
+    //GameService method
+    public Room getRoom(String code) {
+        return rooms.get(code);
     }
 }
