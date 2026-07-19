@@ -18,13 +18,13 @@ public class GameService {
     private final Map<String, GameSession> sessions = new HashMap<>();
     private final RoomService roomService;
 
-    public void playerReady(PlayerReadyRequest playerReadyRequest) {
+    public boolean playerReady(PlayerReadyRequest playerReadyRequest) {
         String roomCode = playerReadyRequest.getRoomCode();
         String username = playerReadyRequest.getUsername();
 
         Room room = roomService.getRoom(roomCode);
         if (!room.getPlayers().contains(username)) {
-            return;
+            throw new RuntimeException("User " + username + " does not belong to room " + roomCode);
         }
 
         if (!sessions.containsKey(roomCode)) {
@@ -38,5 +38,9 @@ public class GameService {
         GameSession session = sessions.get(roomCode);
         session.getReadyPlayers().add(username);
 
+        if (session.getReadyPlayers().size() == room.getPlayers().size() && room.getPlayers().size() == 4) {
+            return true;
+        }
+        return false;
     }
 }
