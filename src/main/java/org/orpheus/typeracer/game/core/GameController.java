@@ -1,6 +1,8 @@
 package org.orpheus.typeracer.game.core;
 
 import lombok.RequiredArgsConstructor;
+import org.orpheus.typeracer.game.DTO.PlayerProgressRequest;
+import org.orpheus.typeracer.game.DTO.PlayerProgressResponse;
 import org.orpheus.typeracer.game.DTO.PlayerReadyRequest;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -15,8 +17,24 @@ public class GameController {
 
     @MessageMapping("/game.ready")
     public void ready(PlayerReadyRequest playerReadyRequest) {
-        gameService.playerReady(playerReadyRequest);
+        boolean allReady = gameService.playerReady(playerReadyRequest);
+        if (allReady) {
+            messagingTemplate.convertAndSend(
+                    "/topic/room." + playerReadyRequest.getRoomCode(),
+                    "game.start"
+            );
+        }
+    }
 
+    @MessageMapping("/player.progress")
+    public void updateProgress(PlayerProgressRequest playerProgressRequest){
+        PlayerProgressResponse playerProgressResponse = new PlayerProgressResponse();
+        playerProgressResponse.setUsername(playerProgressRequest.getUsername());
+        playerProgressResponse.setProgress(playerProgressRequest.getProgress());
+        messagingTemplate.convertAndSend(
+                "/topic/room." + playerProgressRequest.getRoomCode(),
+                playerProgressResponse
+        );
     }
 
 }
