@@ -6,5 +6,5 @@ import lombok.Data;
 public class PlayerProgressRequest {
     String roomCode;
     String username;
-    Integer typedText;
+    String typedText;
 }

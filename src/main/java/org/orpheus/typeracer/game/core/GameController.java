@@ -26,12 +26,14 @@ public class GameController {
         }
     }
 
-    //mporei na prepei na ginei elegxos kai apo ton server tou ti stelnei o client gia to progress
     @MessageMapping("/player.progress")
     public void updateProgress(PlayerProgressRequest playerProgressRequest){
         PlayerProgressResponse playerProgressResponse = new PlayerProgressResponse();
         playerProgressResponse.setUsername(playerProgressRequest.getUsername());
-        playerProgressResponse.setProgress(playerProgressRequest.getTypedText());
+
+        Integer progress = gameService.calculateProgress(playerProgressRequest);
+
+        playerProgressResponse.setProgress(progress);
         messagingTemplate.convertAndSend(
                 "/topic/room." + playerProgressRequest.getRoomCode(),
                 playerProgressResponse

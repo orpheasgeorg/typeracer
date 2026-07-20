@@ -1,6 +1,7 @@
 package org.orpheus.typeracer.game.core;
 
 import lombok.RequiredArgsConstructor;
+import org.orpheus.typeracer.game.DTO.PlayerProgressRequest;
 import org.orpheus.typeracer.game.DTO.PlayerReadyRequest;
 import org.orpheus.typeracer.game.GameSession;
 import org.orpheus.typeracer.room.Room;
@@ -43,4 +44,15 @@ public class GameService {
         }
         return false;
     }
+
+    public Integer calculateProgress(PlayerProgressRequest playerProgressRequest){
+
+        Room room = roomService.getRoom(playerProgressRequest.getRoomCode());
+        String originalText = room.getText();
+
+        return (int) ((double) playerProgressRequest.getTypedText().length() / originalText.length() * 100);
+
+    }
+
+
 }
