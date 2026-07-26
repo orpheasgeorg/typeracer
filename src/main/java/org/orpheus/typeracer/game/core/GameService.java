@@ -54,5 +54,9 @@ public class GameService {
 
     }
 
+    public boolean isGameFinished(int progress) {
+        return progress == 100;
+    }
+
 
 }

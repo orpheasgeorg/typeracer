@@ -33,11 +33,21 @@ public class GameController {
 
         Integer progress = gameService.calculateProgress(playerProgressRequest);
 
+        if (gameService.isGameFinished(progress)) {
+            messagingTemplate.convertAndSend(
+                    "/topic/room." + playerProgressRequest.getRoomCode(),
+                    "game.end:" + playerProgressRequest.getUsername()
+            );
+            return;
+        }
+
         playerProgressResponse.setProgress(progress);
         messagingTemplate.convertAndSend(
                 "/topic/room." + playerProgressRequest.getRoomCode(),
                 playerProgressResponse
         );
     }
+
+
 
 }
