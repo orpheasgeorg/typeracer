@@ -8,9 +8,11 @@ import org.orpheus.typeracer.game.DTO.PlayerReadyRequest;
 import org.orpheus.typeracer.room.Room;
 import org.orpheus.typeracer.room.core.RoomService;
 import org.orpheus.typeracer.text.core.TextService;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,6 +63,17 @@ public class GameController {
         );
     }
 
+    @EventListener
+    public void handleDisconnect(SessionDisconnectEvent event) {
+        String username = event.getUser().getName();
+        String roomCode = gameService.getRoomCode(username);
 
+        if (roomCode != null) {
+            messagingTemplate.convertAndSend(
+                    "/topic/room." + roomCode,
+                    "player.disconnected:" + username
+            );
+        }
+    }
 
 }

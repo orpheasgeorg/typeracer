@@ -17,6 +17,7 @@ import java.util.Map;
 public class GameService {
 
     private final Map<String, GameSession> sessions = new HashMap<>();
+    private final Map<String, String> userToRoom = new HashMap<>();
     private final RoomService roomService;
 
     public boolean playerReady(PlayerReadyRequest playerReadyRequest) {
@@ -56,6 +57,14 @@ public class GameService {
 
     public boolean isGameFinished(int progress) {
         return progress == 100;
+    }
+
+    public void registerUserRoom(String username, String roomCode) {
+        userToRoom.put(username, roomCode);
+    }
+
+    public String getRoomCode(String username) {
+        return userToRoom.get(username);
     }
 
 
