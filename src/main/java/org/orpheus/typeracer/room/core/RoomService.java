@@ -2,7 +2,6 @@ package org.orpheus.typeracer.room.core;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.orpheus.typeracer.game.core.GameService;
 import org.orpheus.typeracer.room.Room;
 import org.orpheus.typeracer.room.RoomStatus;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoomService {
     private final Map<String, Room> rooms = new HashMap<>();
-    private final GameService gameService;
 
     public Room createRoom(String username) {
 
@@ -32,7 +30,6 @@ public class RoomService {
     public Room joinRoom(String username, String code) {
         if (rooms.containsKey(code)) {
             Room room = rooms.get(code);
-            gameService.registerUserRoom(username, code);
             if (room.getPlayers().size() < 4) {
                 room.getPlayers().add(username);
                 rooms.put(code, room);
